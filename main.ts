@@ -1,44 +1,53 @@
-import computeDamage from "./lib/computeDamage.ts";
+import computeDamage from "./lib/compute-damage.ts";
+import { weaponInfos } from "./lib/weapon-data.ts";
 
-interface IWeaponInfo {
-  name: string;
-  damage: number;
-  range: number;
-  rangeModifier: number;
-  gainRange?: number;
-}
-
-const weaponInfos = [
-  {
-    name: "smg",
-    damage: 20,
-    range: 2500,
-    rangeModifier: 0.84,
-  },
-  {
-    name: "smg_silenced",
-    damage: 25,
-    range: 2200,
-    rangeModifier: 0.84,
-    gainRange: 900,
-  },
-] as IWeaponInfo[];
-
-const INTERVAL = 100;
+const INTERVAL = 25;
 const MAX = 5000;
 
-const header = ["weapon_name"];
-for (let i = 0; i < MAX; i += INTERVAL) {
-  header.push(i.toString(10));
-}
-console.log(header.join(","));
-for (const weaponInfo of weaponInfos) {
-  const { name, damage, range, rangeModifier, gainRange } = weaponInfo;
-  const row = [name];
+function generateHeader() {
+  const header = ["weapon_name"];
   for (let i = 0; i < MAX; i += INTERVAL) {
-    row.push(
-      computeDamage(i, damage, rangeModifier, range, gainRange).toString(10),
-    );
+    header.push(i.toString(10));
   }
-  console.log(row.join(","));
+  return header.join(",") + "\n";
 }
+
+function generateBaseDamage() {
+  return generateHeader() + weaponInfos.map((weaponInfo) => {
+    const { name, damage, range, rangeModifier, gainRange, bullets } =
+      weaponInfo;
+    const row = [name];
+    for (let i = 0; i < MAX; i += INTERVAL) {
+      row.push(
+        (computeDamage(i, damage, rangeModifier, range, gainRange) * bullets)
+          .toString(10),
+      );
+    }
+    return row.join(",");
+  }).join("\n") + "\n";
+}
+
+function generateBurstDps() {
+  return generateHeader() + weaponInfos.map((weaponInfo) => {
+    const {
+      name,
+      damage,
+      range,
+      rangeModifier,
+      gainRange,
+      bullets,
+      cycleTime,
+    } = weaponInfo;
+    const row = [name];
+    for (let i = 0; i < MAX; i += INTERVAL) {
+      row.push(
+        (computeDamage(i, damage, rangeModifier, range, gainRange) * bullets *
+          (1 / cycleTime)).toString(10),
+      );
+    }
+    return row.join(",");
+  }).join("\n") + "\n";
+}
+
+await Deno.writeTextFile("basedmg.csv", generateBaseDamage());
+await Deno.writeTextFile("burstDps.csv", generateBurstDps());
