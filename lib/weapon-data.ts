@@ -7,7 +7,12 @@ export interface IWeaponInfo {
   clipSize: number;
   bullets: number;
   gainRange?: number;
+  reloadTime: number;
+  reloadOnEmptyTime?: number;
 }
+
+// Reload times sourced from frame counts on this 30fps video of animations:
+// https://www.youtube.com/watch?v=Cd3VM4wGVQU
 
 export const weaponInfos = [
   {
@@ -18,6 +23,7 @@ export const weaponInfos = [
     cycleTime: 0.15,
     clipSize: 10,
     bullets: 11,
+    reloadTime: 144/30,
   },
   {
     name: "hunting_rifle",
@@ -27,6 +33,7 @@ export const weaponInfos = [
     cycleTime: 0.25,
     clipSize: 15,
     bullets: 1,
+    reloadTime: 111/30,
   },
   {
     name: "pistol_magnum",
@@ -36,6 +43,8 @@ export const weaponInfos = [
     cycleTime: 0.15,
     clipSize: 8,
     bullets: 1,
+    reloadTime: 48/30,
+    reloadOnEmptyTime: 56/30,
   },
   {
     name: "pistol",
@@ -45,6 +54,8 @@ export const weaponInfos = [
     cycleTime: 0.15,
     clipSize: 15,
     bullets: 1,
+    reloadTime: 48/30,
+    reloadOnEmptyTime: 54/30,
   },
   {
     name: "dual_pistol",
@@ -54,6 +65,8 @@ export const weaponInfos = [
     cycleTime: 0.075,
     clipSize: 30,
     bullets: 1,
+    reloadTime: 65/30,
+    reloadOnEmptyTime: 75/30,
   },
   {
     name: "pumpshotgun",
@@ -63,6 +76,7 @@ export const weaponInfos = [
     cycleTime: 0.5,
     clipSize: 8,
     bullets: 10,
+    reloadTime: 137/30, // all shots reloaded
   },
   {
     name: "rifle_ak47",
@@ -73,6 +87,7 @@ export const weaponInfos = [
     clipSize: 40,
     bullets: 1,
     gainRange: 1500,
+    reloadTime: 70/30,
   },
   {
     name: "rifle_desert",
@@ -83,6 +98,7 @@ export const weaponInfos = [
     clipSize: 60,
     bullets: 1,
     gainRange: 1500,
+    reloadTime: 99/30,
   },
   {
     name: "rifle_sg552",
@@ -93,6 +109,7 @@ export const weaponInfos = [
     clipSize: 50,
     bullets: 1,
     gainRange: 1500,
+    reloadTime: 86/30,
   },
   {
     name: "rifle",
@@ -103,6 +120,7 @@ export const weaponInfos = [
     clipSize: 50,
     bullets: 1,
     gainRange: 1500,
+    reloadTime: 64/30,
   },
   {
     name: "shotgun_chrome",
@@ -112,6 +130,7 @@ export const weaponInfos = [
     cycleTime: 0.5,
     clipSize: 8,
     bullets: 8,
+    reloadTime: 136/30, // all shots reloaded
   },
   {
     name: "shotgun_spas",
@@ -121,6 +140,7 @@ export const weaponInfos = [
     cycleTime: 0.15,
     clipSize: 10,
     bullets: 9,
+    reloadTime: 136/30,
   },
   {
     name: "smg_mp5",
@@ -130,6 +150,7 @@ export const weaponInfos = [
     cycleTime: 0.075,
     clipSize: 50,
     bullets: 1,
+    reloadTime: 91/30,
   },
   {
     name: "smg_silenced",
@@ -140,6 +161,8 @@ export const weaponInfos = [
     clipSize: 50,
     bullets: 1,
     gainRange: 900,
+    reloadTime: 62/30,
+    reloadOnEmptyTime: 62/30,
   },
   {
     name: "smg",
@@ -149,6 +172,8 @@ export const weaponInfos = [
     cycleTime: 0.0625,
     clipSize: 50,
     bullets: 1,
+    reloadTime: 64/30,
+    reloadOnEmptyTime: 64/30,
   },
   {
     name: "sniper_awp",
@@ -158,6 +183,7 @@ export const weaponInfos = [
     cycleTime: 1.05,
     clipSize: 20,
     bullets: 1,
+    reloadTime: 109/30,
   },
   {
     name: "sniper_military",
@@ -167,6 +193,7 @@ export const weaponInfos = [
     cycleTime: 0.25,
     clipSize: 30,
     bullets: 1,
+    reloadTime: 100/30,
   },
   {
     name: "sniper_scout",
@@ -176,5 +203,6 @@ export const weaponInfos = [
     cycleTime: 0.9,
     clipSize: 15,
     bullets: 1,
+    reloadTime: 89/30,
   },
 ] as IWeaponInfo[];
