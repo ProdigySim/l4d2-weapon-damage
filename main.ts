@@ -49,5 +49,32 @@ function generateBurstDps() {
   }).join("\n") + "\n";
 }
 
+function generateSustainedDps() {
+  return generateHeader() + weaponInfos.map((weaponInfo) => {
+    const {
+      name,
+      damage,
+      range,
+      rangeModifier,
+      gainRange,
+      bullets,
+      cycleTime,
+      clipSize,
+      reloadTime,
+      reloadOnEmptyTime,
+    } = weaponInfo;
+    const row = [name];
+    const sustainedClipTime = cycleTime * clipSize + (reloadOnEmptyTime ?? reloadTime);
+    for (let i = 0; i < MAX; i += INTERVAL) {
+      row.push(
+        ((computeDamage(i, damage, rangeModifier, range, gainRange) * bullets * clipSize) /
+          sustainedClipTime).toString(10),
+      );
+    }
+    return row.join(",");
+  }).join("\n") + "\n";
+}
+
 await Deno.writeTextFile("basedmg.csv", generateBaseDamage());
 await Deno.writeTextFile("burstDps.csv", generateBurstDps());
+await Deno.writeTextFile("sustainedDps.csv", generateSustainedDps());
